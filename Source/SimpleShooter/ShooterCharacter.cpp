@@ -52,6 +52,11 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &AShooterCharacter::Shoot);
 }
 
+bool AShooterCharacter::IsDead() const
+{
+	return Health <= 0.0f;
+}
+
 void AShooterCharacter::MoveForward(const float AxisValue)
 {
 	AddMovementInput(GetActorForwardVector() * AxisValue);
