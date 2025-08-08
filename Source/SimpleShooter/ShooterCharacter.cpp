@@ -1,19 +1,14 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "ShooterCharacter.h"
 
 #include "Gun.h"
 
-// Sets default values
-AShooterCharacter::AShooterCharacter()
+AShooterCharacter::AShooterCharacter(): Gun(nullptr)
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	Health = MaxHealth;
 }
 
-// Called when the game starts or when spawned
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -24,14 +19,24 @@ void AShooterCharacter::BeginPlay()
 	Gun->SetOwner(this);
 }
 
-// Called every frame
-void AShooterCharacter::Tick(float DeltaTime)
+void AShooterCharacter::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
-// Called to bind functionality to input
+float AShooterCharacter::TakeDamage(const float DamageAmount, const struct FDamageEvent& DamageEvent,
+                                    class AController* EventInstigator, AActor* DamageCauser)
+{
+	float DamageToApply = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	DamageToApply = FMath::Min(Health, DamageToApply);
+	Health -= DamageToApply;
+
+	UE_LOG(LogTemp, Warning, TEXT("Health Left: %f"), Health);
+
+	return DamageToApply;
+}
+
 void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -43,8 +48,8 @@ void AShooterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AShooterCharacter::LookUpRate);
 	PlayerInputComponent->BindAxis("LookRightRate", this, &AShooterCharacter::LookRightRate);
 
-	PlayerInputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Shoot", EInputEvent::IE_Pressed, this, &AShooterCharacter::Shoot);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
+	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &AShooterCharacter::Shoot);
 }
 
 void AShooterCharacter::MoveForward(const float AxisValue)
@@ -74,4 +79,3 @@ void AShooterCharacter::Shoot()
 		Gun->PullTrigger();
 	}
 }
-
