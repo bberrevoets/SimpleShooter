@@ -27,4 +27,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	USkeletalMeshComponent* Mesh;
 
+	UPROPERTY(EditAnywhere)
+	UParticleSystem* MuzzleFlash;
 };
