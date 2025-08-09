@@ -64,7 +64,7 @@ void AGun::BeginPlay()
 	Super::BeginPlay();
 }
 
-void AGun::Tick(float DeltaTime)
+void AGun::Tick(const float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }

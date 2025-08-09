@@ -42,6 +42,8 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float RotationRate = 10.f;
+
+	UPROPERTY()
 	AGun* Gun;
 
 	UPROPERTY(EditDefaultsOnly)

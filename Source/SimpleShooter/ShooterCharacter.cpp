@@ -77,7 +77,7 @@ void AShooterCharacter::LookRightRate(const float AxisValue)
 	AddControllerYawInput(AxisValue * RotationRate * GetWorld()->GetDeltaSeconds());
 }
 
-void AShooterCharacter::Shoot()
+void AShooterCharacter::Shoot() 
 {
 	if (Gun)
 	{
