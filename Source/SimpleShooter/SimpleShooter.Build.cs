@@ -6,7 +6,7 @@ public class SimpleShooter : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(["Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "AIModule"]);
+		PublicDependencyModuleNames.AddRange(["Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "AIModule", "UMG"]);
 
 		PrivateDependencyModuleNames.AddRange([]);
 
