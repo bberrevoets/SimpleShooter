@@ -1,8 +1,9 @@
 #include "ShooterCharacter.h"
 
 #include "Gun.h"
+#include "Components/CapsuleComponent.h"
 
-AShooterCharacter::AShooterCharacter(): Gun(nullptr)
+AShooterCharacter::AShooterCharacter(): Gun(nullptr), Health(0)
 {
 	PrimaryActorTick.bCanEverTick = true;
 }
@@ -33,6 +34,12 @@ float AShooterCharacter::TakeDamage(const float DamageAmount, const struct FDama
 	Health -= DamageToApply;
 
 	UE_LOG(LogTemp, Warning, TEXT("Health Left: %f"), Health);
+
+	if (IsDead())
+	{
+		DetachFromControllerPendingDestroy();
+		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
 
 	return DamageToApply;
 }
