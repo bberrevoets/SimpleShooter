@@ -1,7 +1,9 @@
 #include "ShooterCharacter.h"
 
 #include "Gun.h"
+#include "ShooterGameMode.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SkinnedMeshComponent.h"
 
 AShooterCharacter::AShooterCharacter(): Gun(nullptr), Health(0)
 {
@@ -15,7 +17,7 @@ void AShooterCharacter::BeginPlay()
 	Health = MaxHealth;
 
 	Gun = GetWorld()->SpawnActor<AGun>(GunClass);
-	GetMesh()->HideBoneByName(TEXT("weapon_r"), PBO_None);
+	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("WeaponSocket"));
 	Gun->SetOwner(this);
 }
@@ -39,6 +41,11 @@ float AShooterCharacter::TakeDamage(const float DamageAmount, const struct FDama
 	{
 		DetachFromControllerPendingDestroy();
 		GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		AShooterGameMode* GameMode = GetWorld()->GetAuthGameMode<AShooterGameMode>();
+		if (GameMode!=nullptr)
+		{
+			GameMode->PawnKilled(this);
+		}
 	}
 
 	return DamageToApply;
