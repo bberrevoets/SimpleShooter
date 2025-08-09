@@ -23,5 +23,8 @@ public:
 private:
 	UPROPERTY()
 	AActor* PlayerPawn;
+
+	UPROPERTY(EditAnywhere)
+	float AcceptanceRadius = 200.0f;
 	
 };
