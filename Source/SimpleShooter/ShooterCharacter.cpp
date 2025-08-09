@@ -5,13 +5,13 @@
 AShooterCharacter::AShooterCharacter(): Gun(nullptr)
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	Health = MaxHealth;
 }
 
 void AShooterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Health = MaxHealth;
 
 	Gun = GetWorld()->SpawnActor<AGun>(GunClass);
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), PBO_None);
